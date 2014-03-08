@@ -5,6 +5,7 @@ public class StroyGUI : MonoBehaviour
 {
 
     public Texture2D talkBlock;
+    public Texture2D Bili;
 
     public int fontSize;
     // public Font font;
@@ -24,8 +25,18 @@ public class StroyGUI : MonoBehaviour
 
     void OnGUI()
     {
+        drawCharacter();
         drawTalkBlock();
         drawSubtitle();
+    }
+
+    private void drawCharacter()
+    {
+        GUI.DrawTexture(
+            new Rect(
+                Screen.width / 4, Screen.height / 4,
+                Screen.width, Screen.height * 3 / 4),
+            Bili, ScaleMode.ScaleToFit, true);
     }
 
     private void drawSubtitle()
@@ -33,7 +44,7 @@ public class StroyGUI : MonoBehaviour
         var originColor = GUI.color;
         GUI.color = Color.black;
         GUI.skin.label.fontSize = fontSize;
-        GUI.Label(subtitleRect, "安安");
+        GUI.Label(subtitleRect, "比利：口中嚼著本體論，像失序的清教徒，是塞納河岸的詩。");
         GUI.color = originColor;
     }
 

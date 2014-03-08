@@ -7,14 +7,20 @@ public class StroyGUI : MonoBehaviour
     public Texture2D talkBlock;
     public Texture2D Bili;
 
-    public int fontSize;
-    // public Font font;
 
+    private float virtualWidth = 1920.0f;
+    private float virtualHeight = 1080.0f;
+    Matrix4x4 myGUIMatrix;
+
+    public int fontSize;
 
     // Use this for initialization
     void Start()
     {
-
+        myGUIMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
+            new Vector3(Screen.width / virtualWidth,
+                Screen.height / virtualHeight,
+                1.0f));
     }
 
     // Update is called once per frame
@@ -25,6 +31,8 @@ public class StroyGUI : MonoBehaviour
 
     void OnGUI()
     {
+        GUI.matrix = myGUIMatrix;
+        
         drawCharacter();
         drawTalkBlock();
         drawSubtitle();
@@ -33,37 +41,31 @@ public class StroyGUI : MonoBehaviour
     private void drawCharacter()
     {
         GUI.DrawTexture(
-            new Rect(
-                Screen.width / 4, Screen.height / 4,
-                Screen.width, Screen.height * 3 / 4),
+            new Rect(480, 270, 1920, 810),
             Bili, ScaleMode.ScaleToFit, true);
     }
 
     private void drawSubtitle()
     {
-        var originColor = GUI.color;
         GUI.color = Color.black;
         GUI.skin.label.fontSize = fontSize;
         GUI.Label(subtitleRect, "比利：口中嚼著本體論，像失序的清教徒，是塞納河岸的詩。");
-        GUI.color = originColor;
     }
 
     private void drawTalkBlock()
     {
-        var originColor = GUI.color;
         GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.75f);
         GUI.DrawTexture(talkBlockRect, talkBlock, ScaleMode.StretchToFill, true);
-        GUI.color = originColor;
     }
 
     private Rect talkBlockRect
     {
         get
         {
-            int x = Screen.width / 10;
-            int y = Screen.height * 3 / 4;
-            int width = Screen.width * 4 / 5;
-            int height = Screen.height / 5;
+            float x = virtualWidth * 0.1f;
+            float y = virtualHeight * 0.75f;
+            float width = virtualWidth * 0.8f;
+            float height = virtualHeight * 0.2f;
 
             return new Rect(x, y, width, height);
         }
